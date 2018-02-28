@@ -1,0 +1,54 @@
+#this is tensor environment in ubuntu with anaconda virtualenv
+# I refer to most sources of youtuber,'Swapnil Pote' and google tensor install site.
+
+
+
+
+Step - 1
+# ensure system is updated and has basic build tools
+sudo apt-get update
+sudo apt-get --assume-yes upgrade
+sudo apt-get --assume-yes install tmux build-essential gcc g++ make binutils
+sudo apt-get --assume-yes install software-properties-common
+
+
+Step - 2
+# Install your nvidia graphics driver. Search for additional drivers in menu and open it. wait for minute and select nvidia driver and hit apply and restart.
+
+Step - 3
+# Google cuda toolkit archive. Download cuda-8.0 .deb package and install it
+sudo dpkg -i cuda-repo-ubuntu1604-8-0-local-ga2_8.0.61-1_amd64.deb (this is the deb file you've downloaded)
+sudo apt-get update
+sudo apt-get install cuda
+
+gedit ~/.bashrc
+#typing following sentence at the bottom
+export PATH=/usr/local/cuda-8.0/bin${PATH:+:${PATH}}
+export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+Step - 4
+# Download cudnn v5.1 and run following command
+tar -xzvf cudnn-8.0-linux-x64-v5.1.tgz
+sudo cp cuda/include/cudnn.h /usr/local/cuda/include
+sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64
+sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn*
+
+Step - 5
+# Prepare TensorFlow dependencies
+sudo apt-get install libcupti-dev
+
+Step - 6
+# Download Python and then tensorflow gpu
+bash Anaconda3-4.4.0-Linux-x86_64.sh
+conda create -n tensorflow pip python=2.7
+source activate tensorflow
+pip install --ignore-installed --upgrade tfBinaryURL 
+#you can earn tfBinaryUR in tensorflow site
+#(https://www.tensorflow.org/install/install_linux#the_url_of_the_tensorflow_python_package)
+
+Step - 7
+# Check gpu has been step properly or not
+# Download this git repo https://github.com/tensorflow/models and unzip it.
+python models-master/tutorials/image/imagenet/classify_image.py
+or
+python models-master/tutorials/image/cifar10/cifar10_train.py
